@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
@@ -68,7 +70,10 @@ public class Produto implements Serializable {
 	@JoinTable(name = "desejos", joinColumns = @JoinColumn(name = "produto", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "pessoa_fisica", referencedColumnName = "id", nullable = false), uniqueConstraints = {
 			@UniqueConstraint(columnNames = { "pessoa_fisica", "produto" }) })
 	private List<PessoaFisica> desejam = new ArrayList<PessoaFisica>();
-
+	
+	@OneToMany(mappedBy="produto", cascade=CascadeType.ALL, orphanRemoval=true, fetch= FetchType.LAZY)
+	private List<Foto> fotos = new ArrayList<Foto>();
+	
 	public Produto() {
 	}
 	
@@ -150,5 +155,22 @@ public class Produto implements Serializable {
 
 	public void setDesejam(List<PessoaFisica> desejam) {
 		this.desejam = desejam;
+	}
+	
+	public List<Foto> getFotos() {
+		return fotos;
+	}
+
+	public void setFotos(List<Foto> fotos) {
+		this.fotos = fotos;
+	}
+	
+	public void addFoto(Foto foto) {
+		this.fotos.add(foto);
+	}
+	
+	public void removeFoto(Integer index) {
+		Foto foto = this.fotos.get(index);
+		this.fotos.remove(foto);
 	}
 }
