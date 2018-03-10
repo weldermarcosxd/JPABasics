@@ -56,7 +56,7 @@ public class Venda implements Serializable {
 	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<ItemVenda> itensVenda = new ArrayList<ItemVenda>();
 
-	@OneToMany(mappedBy = "parcelaID.venda", cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.LAZY)    
+	@OneToMany(mappedBy = "parcelaID.venda", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)    
     private List<Parcela> listaParcelas = new ArrayList<>();
 
 	public Venda() {
